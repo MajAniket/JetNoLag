@@ -14,9 +14,8 @@ def submit():
     timeDifference = (dz - 12) - (cz -12)
     
     #today = date.today()
-    a = datetime.datetime(int(dateText.value[:3]), int(dateText.value[5:6]), int(dateText.value[8:9]))
-    #b = datetime.datetime(today[3], today[5,6], today[8,9])
-    dateDifference = a - datetime.date.today()
+    a = datetime.datetime(int(year.value), int(month.value), int(day.value))
+    dateDifference = a - date.today()
     
     change = int(timeDifference / dateDifference)*60
     t = datetime(hours = wakeText.value[1], minutes = wakeText.value[3,4])
@@ -60,6 +59,7 @@ day = Combo(questions,
 month = Combo(questions,
             options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             selected = "1", width = 10)
+
 year = TextBox(questions, text = "2021", width = "30", height = "87")
 
 wakeup = Text(questions, text = "\nUsual Wakeup Time")
