@@ -8,7 +8,7 @@ app = App(title = "Jet No Lag", width = "1200", height = "700", bg = "#D8E0FF")
 
 def submit():
     CZ = currentZone.value
-    DZ = destintionZone.value
+    DZ = destinationZone.value
     cz = int(times.index(CZ))
     dz = int(times.index(DZ))
     timeDifference = (dz - 12) - (cz -12)
@@ -19,9 +19,9 @@ def submit():
     daysDate = dateDifference.days
     change = int(timeDifference) / int(daysDate)*60 #this is calculating how much time needs to be increased or decreased by in minutes each day
     
-    t = datetime(hours = int(wakeText.value[1]), minutes = int(wakeText.value[3,4])) #formating the time the user input into datetime
-    
-    for i in range(dateDifference): #works out the time each day and adds it to the box
+    t = datetime(hours = int(sliderHour.value), minutes = int(sliderMinutes.value)) #formating the time the user input into datetime
+    text.show()
+    for i in range(daysDate): #works out the time each day and adds it to the box
         newTime = t + timedelta(minutes = change)
         output.value += "Day", str(i), ": ", str(newTime), "\n"
         t = newTime
@@ -34,47 +34,54 @@ description = Text(app,
                    , size = 20 , color = "#000000")
 
 
-questions = Box(app)
+questions = Box(app, layout = "grid")
 
 #time zone information
-currentZoneText = Text(questions, text = "\nPick your current locations time zone")
+currentZoneText = Text(questions, text = "\nPick your current locations time zone", grid = [0,2])
 
 currentZone = Combo(questions,
                    options = ["GMT -12", "GMT -11", "GMT -10", "GMT -9", "GMT -8", "GMT -7", "GMT -6", "GMT -5", "GMT -4", "GMT -3", "GMT -2", "GMT -1",
                               "GMT +0", "GMT +1", "GMT +2", "GMT +3", "GMT +4", "GMT +5", "GMT +6", "GMT +7", "GMT +8", "GMT +9", "GMT +10", "GMT +11", "GMT +12"],
-                   selected = "GMT", width = 20)
+                   selected = "GMT", width = 20, grid = [0,4])
+currentZone.bg = "white"
 
-destinationZoneText = Text(questions, text = "\nPick your destination locations time zone")
+destinationZoneText = Text(questions, text = "\nPick your destination locations time zone", grid = [0,6])
 
-destintionZone = Combo(questions,
+destinationZone = Combo(questions,
                    options = ["GMT -12", "GMT -11", "GMT -10", "GMT -9", "GMT -8", "GMT -7", "GMT -6", "GMT -5", "GMT -4", "GMT -3", "GMT -2", "GMT -1",
                               "GMT +0", "GMT +1", "GMT +2", "GMT +3", "GMT +4", "GMT +5", "GMT +6", "GMT +7", "GMT +8", "GMT +9", "GMT +10", "GMT +11", "GMT +12"],
-                   selected = "GMT", width = 20)
+                   selected = "GMT", width = 20, grid = [0,8])
+destinationZone.bg = "white"
 
 #trip date information
-tripdate = Text(questions, text = "\nDate of Trip")
+tripdate = Text(questions, text = "\nDate of Trip", grid = [6,2], )
+
 day = Combo(questions,
             options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15",
                        "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29","30", "31"],
-            selected = "1", width = 10)
+            selected = "1", width = 10, grid = [6,4])
+day.bg = "white"
 
 month = Combo(questions,
             options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-            selected = "1", width = 10)
+            selected = "1", width = 10, grid = [6,5])
+month.bg = "white"
 
-year = TextBox(questions, text = "2021", width = "30", height = "87")
+year = TextBox(questions, text = "2021", width = "20", height = "87", grid = [6,6])
+year.bg = "white"
 
-wakeup = Text(questions, text = "\nUsual Wakeup Time")
-wakeText = TextBox(questions, text = "06: 00", width = "30", height = "87")
+wakeup = Text(questions, text = "\nUsual Wakeup Time", grid = [6,8])
+sliderHour = Slider(questions, start = "0", end = "23", grid = [6,9])
+sliderMinutes = Slider(questions, start = "0", end = "59", grid = [6, 10])
 
-submit_btn = PushButton(app, text = "Submit", command = submit)
+submit_btn = PushButton(questions, text = "Submit", command = submit, grid = [7, 12])
+submit_btn.bg = "green"
+submit_btn.color = "white"
 
-sleepbox = Box(app)
-text = Text(sleepbox, text = "Sleep Schedule")
-output = Text(sleepbox, text = "")
+text = Text(questions, text = "Sleep Schedule", grid = [9,2]).hide()
+output = Text(questions, text = "", grid = [9,3])
 
-timetable = Box(sleepbox)
-timetable.bg = "#808080"
+output.bg = "#808080"
 
 
 app.display()
