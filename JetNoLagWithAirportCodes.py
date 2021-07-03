@@ -1,14 +1,14 @@
 from guizero import *
 from datetime import *
 import datetime
-from pyairports.airports import Airports
-airports = Airports()
+import airporttime
 
 times = ["GMT -12", "GMT -11", "GMT -10", "GMT -9", "GMT -8", "GMT -7", "GMT -6", "GMT -5", "GMT -4", "GMT -3", "GMT -2", "GMT -1","GMT +0", "GMT +1", "GMT +2", "GMT +3", "GMT +4", "GMT +5", "GMT +6", "GMT +7", "GMT +8", "GMT +9", "GMT +10", "GMT +11", "GMT +12"]
 
 app = App(title = "Jet No Lag", width = "1200", height = "700", bg = "#D8E0FF")
 
 def submit():
+
     CZ = currentZone.value
     DZ = destintionZone.value
     cz = times.index(CZ)
@@ -38,6 +38,7 @@ description = Text(app,
 questions = Box(app)
 
 #time zone information
+
 currentZoneText = Text(questions, text = "\nInput your three letter aiport code that you will start from")
 
 currentZone = TextBox(questions, width = 20)
@@ -47,6 +48,7 @@ destinationZoneText = Text(questions, text = "\nInput your three letter aiport c
 destintionZone = TextBox(questions, width = 20)
 
 #trip date information
+
 tripdate = Text(questions, text = "\nDate of Trip")
 day = Combo(questions,
             options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15",
@@ -63,6 +65,20 @@ wakeText = TextBox(questions, text = "06: 00", width = "30", height = "87")
 
 submit_btn = PushButton(app, text = "Submit", command = submit)
 
+#Library Integration
+
+currentAirport = airporttime.AirportTime(iata_code = currentZone)
+currentZoneGMTOffset = currentAirport.airport.gmt_offset
+destinationAirport = airporttime.AirportTime(iata_code = destintionZone)
+destinationZoneGMTOffset = destinationAirport.airport.gmt_offset
+
+# Library Tests
+
+print(currentZone)
+print(currentZoneGMTOffset)
+print(destintionZone)
+print(destinationZoneGMTOffset)
+
 sleepbox = Box(app)
 text = Text(sleepbox, text = "Sleep Schedule")
 output = Text(sleepbox, text = "")
@@ -72,5 +88,3 @@ timetable.bg = "#808080"
 
 
 app.display()
-
-
