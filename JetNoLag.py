@@ -9,17 +9,19 @@ app = App(title = "Jet No Lag", width = "1200", height = "700", bg = "#D8E0FF")
 def submit():
     CZ = currentZone.value
     DZ = destintionZone.value
-    cz = times.index(CZ)
-    dz = times.index(DZ)
+    cz = int(times.index(CZ))
+    dz = int(times.index(DZ))
     timeDifference = (dz - 12) - (cz -12)
     
-    #today = date.today()
-    a = datetime.datetime(int(year.value), int(month.value), int(day.value))
-    dateDifference = a - date.today()
     
-    change = int(timeDifference / dateDifference)*60
-    t = datetime(hours = wakeText.value[1], minutes = wakeText.value[3,4])
-    for i in range(dateDifference):
+    a = datetime.datetime(int(year.value), int(month.value), int(day.value))
+    dateDifference = a.date() - date.today()
+    daysDate = dateDifference.days
+    change = int(timeDifference) / int(daysDate)*60 #this is calculating how much time needs to be increased or decreased by in minutes each day
+    
+    t = datetime(hours = int(wakeText.value[1]), minutes = int(wakeText.value[3,4])) #formating the time the user input into datetime
+    
+    for i in range(dateDifference): #works out the time each day and adds it to the box
         newTime = t + timedelta(minutes = change)
         output.value += "Day", str(i), ": ", str(newTime), "\n"
         t = newTime
