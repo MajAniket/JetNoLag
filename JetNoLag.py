@@ -13,10 +13,10 @@ def submit():
     dz = times.index(DZ)
     timeDifference = (dz - 12) - (cz -12)
     
-    today = date.today()
-    a = datetime.datetime(dateText.value[3], dateText.value[5,6], dateText.value[8,9])
-    b = datetime.datetime(today[3], today[5,6], today[8,9])
-    dateDifference = a-b
+    #today = date.today()
+    a = datetime.datetime(int(dateText.value[:3]), int(dateText.value[5:6]), int(dateText.value[8:9]))
+    #b = datetime.datetime(today[3], today[5,6], today[8,9])
+    dateDifference = a - datetime.date.today()
     
     change = int(timeDifference / dateDifference)*60
     t = datetime(hours = wakeText.value[1], minutes = wakeText.value[3,4])
@@ -35,6 +35,7 @@ description = Text(app,
 
 questions = Box(app)
 
+#time zone information
 currentZoneText = Text(questions, text = "\nPick your current locations time zone")
 
 currentZone = Combo(questions,
@@ -49,11 +50,20 @@ destintionZone = Combo(questions,
                               "GMT +0", "GMT +1", "GMT +2", "GMT +3", "GMT +4", "GMT +5", "GMT +6", "GMT +7", "GMT +8", "GMT +9", "GMT +10", "GMT +11", "GMT +12"],
                    selected = "GMT", width = 20)
 
+#trip date information
 tripdate = Text(questions, text = "\nDate of Trip")
-dateText = TextBox(questions, text = "2021-07-04", width = "30", height = "87")
+day = Combo(questions,
+            options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15",
+                       "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29","30", "31"],
+            selected = "1", width = 10)
+
+month = Combo(questions,
+            options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            selected = "1", width = 10)
+year = TextBox(questions, text = "2021", width = "30", height = "87")
 
 wakeup = Text(questions, text = "\nUsual Wakeup Time")
-wakeText = TextBox(questions, text = "06: 00", width = "30", height = "87") #, color = "#808080"
+wakeText = TextBox(questions, text = "06: 00", width = "30", height = "87")
 
 submit_btn = PushButton(app, text = "Submit", command = submit)
 
