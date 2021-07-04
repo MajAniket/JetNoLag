@@ -2,9 +2,11 @@ from guizero import *
 from datetime import *
 import datetime
 
+
+
 times = ["GMT -12", "GMT -11", "GMT -10", "GMT -9", "GMT -8", "GMT -7", "GMT -6", "GMT -5", "GMT -4", "GMT -3", "GMT -2", "GMT -1","GMT +0", "GMT +1", "GMT +2", "GMT +3", "GMT +4", "GMT +5", "GMT +6", "GMT +7", "GMT +8", "GMT +9", "GMT +10", "GMT +11", "GMT +12"]
 
-app = App(title = "Jet No Lag", width = "1200", height = "700", bg = "#D8E0FF")
+app = App(title = "Jet No Lag ", width = "1200", height = "700", bg = "#D8E0FF")
 
 def submit():
     CZ = currentZone.value
@@ -18,16 +20,20 @@ def submit():
     dateDifference = a.date() - date.today()
     daysDate = dateDifference.days
     change = int(timeDifference) / int(daysDate)*60 #this is calculating how much time needs to be increased or decreased by in minutes each day
+
+    today = date.today()
     
-    t = datetime(hours = int(sliderHour.value), minutes = int(sliderMinutes.value)) #formating the time the user input into datetime
-    text.show()
+    t = datetime.datetime(year = int(today.year) , month = int(today.month), day = int(today.day) ,hour = int(sliderHour.value), minute = int(sliderMinutes.value)) #formating the time the user input into datetime
+    
+    
     for i in range(daysDate): #works out the time each day and adds it to the box
-        newTime = t + timedelta(minutes = change)
-        output.value += "Day", str(i), ": ", str(newTime), "\n"
+        newTime = t + timedelta(days = 1, minutes = change)
+        outputDay.value += str(newTime)
+        outputDay.value += "\n"
         t = newTime
     
 
-name = Text(app, text = "Jet No Lag", size = 50, align = "top", color = "#000000")
+name = Text(app, text = "Jet No Lag ✈", size = 50, align = "top", color = "#000000")
 
 description = Text(app,
                    text = "No one likes jetlag. Input information about your trip and get a custom sleep schedule to \n follow before your departure to transition smoothly into your new time zone."
@@ -78,10 +84,12 @@ submit_btn = PushButton(questions, text = "Submit", command = submit, grid = [7,
 submit_btn.bg = "green"
 submit_btn.color = "white"
 
-text = Text(questions, text = "Sleep Schedule", grid = [9,2]).hide()
-output = Text(questions, text = "", grid = [9,3])
+text = Text(questions, text = "Sleep Schedule", grid = [9,2])
+outputDay = Text(questions, text = "", grid = [9,3])
 
-output.bg = "#808080"
+
+outputDay.bg = "#c3c3c7"
+outputDay.text_color  = "green"
 
 
 app.display()
